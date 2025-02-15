@@ -64,7 +64,6 @@ This interactive state machine implementation demonstrates workflow management t
   ├── script.js
   ├── README.md
   └── LICENSE
-  
    ```
 
 3. **Running the Application**
