@@ -158,6 +158,7 @@ class TaskManager {
 
             let newState;
             if (completedActions === 0) {
+                // If no actions are checked, revert to PENDING
                 newState = STATES.PENDING;
             } else if (completedActions === task.actions.length) {
                 newState = STATES.COMPLETED;
@@ -165,7 +166,47 @@ class TaskManager {
                 newState = STATES.IN_PROGRESS;
             }
 
+            // Update the current task's state
             this.updateState(task.id, newState);
+
+            // Handle state reversions when unchecking
+            if (!currentState) { // If we're checking the box
+                this.applyStateTransitions(task.id, newState);
+            } else { // If we're unchecking the box
+                // If this is the first task and we're going back to PENDING
+                if (task.order === 1 && newState === STATES.PENDING) {
+                    const anyTaskInProgress = this.workflow.tasks.some(t => 
+                        this.taskStates.get(t.id) !== STATES.PENDING
+                    );
+                    
+                    if (!anyTaskInProgress) {
+                        this.updateState(this.workflow.id, STATES.PENDING);
+                    }
+                }
+
+                // Reset subsequent tasks if current task is not completed
+                if (newState !== STATES.COMPLETED) {
+                    const subsequentTasks = this.workflow.tasks.filter(t => 
+                        t.order > task.order
+                    );
+                    
+                    subsequentTasks.forEach(t => {
+                        // Reset all actions for subsequent tasks
+                        t.actions.forEach(action => {
+                            this.actionStates.set(action.id, false);
+                        });
+                        this.updateState(t.id, STATES.PENDING);
+                    });
+
+                    // If no tasks are in progress or completed, reset workflow
+                    const anyActiveTask = this.workflow.tasks.some(t => 
+                        this.getTaskState(t.id) !== STATES.PENDING
+                    );
+                    if (!anyActiveTask) {
+                        this.updateState(this.workflow.id, STATES.PENDING);
+                    }
+                }
+            }
         }
     }
 
@@ -181,8 +222,13 @@ class TaskManager {
 
     /** Check and update workflow progress based on actions */
     checkAndUpdateWorkflowProgress() {
-        if (this.isAnyActionCompleted() && this.getTaskState(this.workflow.id) === STATES.PENDING) {
-            this.updateState(this.workflow.id, STATES.IN_PROGRESS);
+        if (this.isAnyActionCompleted()) {
+            if (this.getTaskState(this.workflow.id) === STATES.PENDING) {
+                this.updateState(this.workflow.id, STATES.IN_PROGRESS);
+            }
+        } else {
+            // If no actions are completed, set workflow back to PENDING
+            this.updateState(this.workflow.id, STATES.PENDING);
         }
     }
 
