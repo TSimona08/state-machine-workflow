@@ -1,7 +1,7 @@
 # State Machine Workflow Engine
 
 ## Overview
-An interactive state machine implementation that demonstrates workflow management through a user-friendly web interface. The system manages state transitions between tasks and provides visual feedback of the workflow progress.
+This interactive state machine implementation demonstrates workflow management through a user-friendly web interface. The system manages state transitions between tasks and provides visual feedback on workflow progress.
 
 ## Features
 - State management for workflow and tasks
@@ -50,7 +50,7 @@ An interactive state machine implementation that demonstrates workflow managemen
   - `COMPLETED`: All actions done
 
 ### Dependencies
-No external libraries required. Built with:
+No external libraries are required. Built with:
 - HTML5
 - CSS3
 - Vanilla JavaScript
@@ -65,10 +65,12 @@ No external libraries required. Built with:
 2. **Project Structure**
    ```
    project/
-   ├── index.html
-   ├── styles.css
-   ├── script.js
-   └── README.md
+  ├── index.html
+  ├── styles.css
+  ├── script.js
+  ├── README.md
+  └── LICENSE
+  
    ```
 
 3. **Running the Application**
@@ -80,24 +82,24 @@ No external libraries required. Built with:
 
 1. **Initial State**
    - All tasks start in `PENDING` state
-   - Only first task's actions are available
+   - Only the first task's actions are available
 
 2. **Task Progression**
    - Complete actions by checking checkboxes
    - Tasks automatically progress based on completed actions
-   - Next task unlocks when current task is completed
+   - The next task unlocks when the current task is completed
 
 3. **Workflow Completion**
    - Workflow completes when all tasks are done
-   - "Add New Profile" button appears
-   - System can be reset to initial state
+   - The "Add New Profile" button appears
+   - System can be reset to the initial state
 
 ## State Transition Rules
 
 1. **Task State Changes**
    - First action → Task becomes `IN_PROGRESS`
    - All actions complete → Task becomes `COMPLETED`
-   - Task completion unlocks next task
+   - Task completion unlocks the next task
 
 2. **Workflow State Changes**
    - First action → Workflow becomes `IN_PROGRESS`
