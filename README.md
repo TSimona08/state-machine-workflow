@@ -49,12 +49,6 @@ This interactive state machine implementation demonstrates workflow management t
   - `IN_PROGRESS`: Task started
   - `COMPLETED`: All actions done
 
-### Dependencies
-No external libraries are required. Built with:
-- HTML5
-- CSS3
-- Vanilla JavaScript
-
 ## Setup and Running
 
 1. **Clone the repository**
