@@ -1,7 +1,7 @@
 # State Machine Workflow Engine
 
 ## Overview
-This interactive state machine implementation demonstrates workflow management through a user-friendly web interface. The system manages state transitions between tasks and provides visual feedback on workflow progress.
+An interactive state machine implementation that demonstrates workflow management through a user-friendly web interface. The system manages state transitions between tasks and provides visual feedback of the workflow progress.
 
 ## Features
 - State management for workflow and tasks
@@ -59,11 +59,11 @@ This interactive state machine implementation demonstrates workflow management t
 2. **Project Structure**
    ```
    project/
-  ├── index.html
-  ├── styles.css
-  ├── script.js
-  ├── README.md
-  └── LICENSE
+   ├── index.html
+   ├── styles.css
+   ├── script.js
+   ├── LICENSE
+   └── README.md
    ```
 
 3. **Running the Application**
@@ -130,4 +130,5 @@ taskManager.addLink(new Link(
     'completed',
     'in-progress'
 ));
-``
+```
+
