@@ -169,43 +169,12 @@ class TaskManager {
             // Update the current task's state
             this.updateState(task.id, newState);
 
-            // Handle state reversions when unchecking
+            // Handle state transitions when checking
             if (!currentState) { // If we're checking the box
                 this.applyStateTransitions(task.id, newState);
             } else { // If we're unchecking the box
-                // If this is the first task and we're going back to PENDING
-                if (task.order === 1 && newState === STATES.PENDING) {
-                    const anyTaskInProgress = this.workflow.tasks.some(t => 
-                        this.taskStates.get(t.id) !== STATES.PENDING
-                    );
-                    
-                    if (!anyTaskInProgress) {
-                        this.updateState(this.workflow.id, STATES.PENDING);
-                    }
-                }
-
-                // Reset subsequent tasks if current task is not completed
-                if (newState !== STATES.COMPLETED) {
-                    const subsequentTasks = this.workflow.tasks.filter(t => 
-                        t.order > task.order
-                    );
-                    
-                    subsequentTasks.forEach(t => {
-                        // Reset all actions for subsequent tasks
-                        t.actions.forEach(action => {
-                            this.actionStates.set(action.id, false);
-                        });
-                        this.updateState(t.id, STATES.PENDING);
-                    });
-
-                    // If no tasks are in progress or completed, reset workflow
-                    const anyActiveTask = this.workflow.tasks.some(t => 
-                        this.getTaskState(t.id) !== STATES.PENDING
-                    );
-                    if (!anyActiveTask) {
-                        this.updateState(this.workflow.id, STATES.PENDING);
-                    }
-                }
+                // Reset the workflow
+                this.resetWorkflow();
             }
         }
     }
